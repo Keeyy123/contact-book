@@ -1,25 +1,30 @@
-import sqlite3
 import os
+import psycopg2
 from dotenv import load_dotenv
 
 load_dotenv()
 
-DB_FILE = os.getenv("DB_FILE", "contacts.db")
-
 def get_connection():
-    return sqlite3.connect(DB_FILE)
+    return psycopg2.connect(
+        host=os.getenv("PG_HOST", "localhost"),
+        port=os.getenv("PG_PORT", 5432),
+        dbname=os.getenv("PG_NAME", "contactbook"),
+        user=os.getenv("PG_USER", "contactuser"),
+        password=os.getenv("PG_PASSWORD", "contactpass")
+    )
 
 def setup_database():
     conn = get_connection()
-    conn.execute("""
+    cur = conn.cursor()
+    cur.execute("""
         CREATE TABLE IF NOT EXISTS groups (
-            id   INTEGER PRIMARY KEY AUTOINCREMENT,
+            id   SERIAL PRIMARY KEY,
             name TEXT NOT NULL
         )
     """)
-    conn.execute("""
+    cur.execute("""
         CREATE TABLE IF NOT EXISTS contacts (
-            id       INTEGER PRIMARY KEY AUTOINCREMENT,
+            id       SERIAL PRIMARY KEY,
             name     TEXT NOT NULL,
             phone    TEXT,
             email    TEXT,
@@ -27,5 +32,6 @@ def setup_database():
         )
     """)
     conn.commit()
+    cur.close()
     conn.close()
 
