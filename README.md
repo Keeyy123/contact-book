@@ -1,10 +1,10 @@
-# Contact Book CLI
+# CloudBook CLI
 
-A command-line contact management application built with Python and PostgreSQL, structured with a modular backend architecture.
+A command-line contact management application built with Python, PostgreSQL, and AWS RDS, structured with a modular backend architecture.
 
 ## Project Structure
 
-contact-book/
+cloudbook-cli/
 ├── app.py        → CLI routing layer
 ├── models.py     → database functions
 ├── db.py         → connection and configuration
@@ -18,28 +18,28 @@ contact-book/
 - View contacts with their assigned group
 - Environment-based configuration using .env
 - Modular architecture separating routing, logic, and data layers
-- Migrated from SQLite to PostgreSQL
+- Migrated from SQLite to PostgreSQL to AWS RDS
 
 ## Tech Stack
 
 - Python 3
 - PostgreSQL
+- AWS RDS
 - psycopg2
 - python-dotenv
 
 ## Setup
 
 pip install psycopg2-binary python-dotenv
-createdb contactbook
 python3 app.py
 
 ## Environment Variables
 
 Create a .env file with the following:
 
-PG_HOST=localhost
-PG_PORT=5432
-PG_NAME=contactbook
+PG_HOST=your-rds-endpoint.rds.amazonaws.com
+PG_PORT=5433
+PG_NAME=postgres
 PG_USER=your-username
 PG_PASSWORD=your-password
 
@@ -60,13 +60,17 @@ python3 app.py assign 1 2                   # Assign contact to group
 - Designing relational database schemas with foreign keys
 - Writing SQL JOIN queries across multiple tables
 - Refactoring a single-file app into a modular three-layer architecture
-- Migrating from SQLite to PostgreSQL with zero application code changes
-- Using environment variables for configuration following AWS cloud best practices
-- Incremental testing at each stage of development
+- Migrating from SQLite to PostgreSQL to AWS RDS
+- AWS security group configuration and network troubleshooting
+- Environment-based configuration following cloud best practices
+
+## Project Journey
+
+SQLite CRUD → Relational Schema → Modular Architecture → PostgreSQL → AWS RDS
 
 ## Next Steps
 
-- Connect to AWS RDS Free Tier
 - Add IAM-based authentication
-
+- Implement connection pooling
+- Add database migrations with Alembic
 
